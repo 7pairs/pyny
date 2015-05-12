@@ -26,9 +26,9 @@ class ApiTest(TestCase):
 
     def test_get_item_count_01(self):
         """
-        [対象] get_item_count()
-        [条件] 有効なレイヤIDを指定して呼び出す。
-        [結果] 件数がが返されること。
+        [対象] get_item_count() : No.01
+        [条件] 有効なレイヤIDを指定して実行する。
+        [結果] 件数が返却される。
         """
         from pyny import api
         actual = api.get_item_count('c1120')
@@ -37,11 +37,10 @@ class ApiTest(TestCase):
 
     def test_get_item_count_02(self):
         """
-        [対象] get_item_count()
-        [条件] 無効なレイヤIDを指定して呼び出す。
-        [結果] PynyErrorが送出されること。
+        [対象] get_item_count() : No.02
+        [条件] 無効なレイヤIDを指定して実行する。
+        [結果] PynyErrorが送出される。
         """
-        from pyny import PynyError
-
-        with self.assertRaises(PynyError):
+        from pyny import api
+        with self.assertRaises(api.PynyError):
             api.get_item_count('error')
