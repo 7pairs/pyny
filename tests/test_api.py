@@ -147,23 +147,23 @@ class ApiTest(TestCase):
         with self.assertRaises(api.PynyError):
             api.get_all_data('error')
 
-    def test_get_item_count_01(self):
+    def test_get_data_count_01(self):
         """
-        [対象] get_item_count() : No.01
+        [対象] get_data_count() : No.01
         [条件] 有効なレイヤIDを指定して実行する。
-        [結果] 件数が返却される。
+        [結果] データ件数が返却される。
         """
         from pyny import api
-        actual = api.get_item_count('c1120')
+        actual = api.get_data_count('c1120')
 
         self.assertEqual(71, actual)
 
-    def test_get_item_count_02(self):
+    def test_get_data_count_02(self):
         """
-        [対象] get_item_count() : No.02
+        [対象] get_data_count() : No.02
         [条件] 無効なレイヤIDを指定して実行する。
         [結果] PynyErrorが送出される。
         """
         from pyny import api
         with self.assertRaises(api.PynyError):
-            api.get_item_count('error')
+            api.get_data_count('error')

@@ -31,13 +31,36 @@ class PynyError(Exception):
     """
 
 
-def get_item_count(layer_id):
+def get_all_data(layer_id):
     """
-    指定されたレイヤIDにマッチする情報の件数を取得する。
+    指定されたレイヤIDにマッチするすべてのデータを取得する。
 
     :param layer_id: レイヤID
     :type layer_id: str
-    :return: 情報の件数
+    :return: 辞書にまとめられたデータのリスト
+    :rtype: list
+    :raises PynyError: Web APIへの問い合わせが正常に完了しなかった
+    """
+    # データの件数を取得する
+    data_count = get_data_count(layer_id)
+
+    # 流山市オープンデータWeb APIに問い合わせを行う
+    try:
+        with urlopen(WEB_API_URL % (layer_id, data_count)) as response:
+            encoding = response.headers.get_content_charset() or 'utf-8'
+            data = json.loads(response.read().decode(encoding, 'ignore'))
+            return data['results']
+    except HTTPError:
+        raise PynyError()
+
+
+def get_data_count(layer_id):
+    """
+    指定されたレイヤIDにマッチするデータの件数を取得する。
+
+    :param layer_id: レイヤID
+    :type layer_id: str
+    :return: データの件数
     :rtype: int
     :raises PynyError: Web APIへの問い合わせが正常に完了しなかった
     """
