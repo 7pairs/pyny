@@ -53,6 +53,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# pyenv
+.python-version
+
 # IntelliJ IDEA
 .idea
 pyny.iml
