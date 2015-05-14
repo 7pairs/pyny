@@ -17,7 +17,6 @@
 #
 
 import json
-from urllib.error import HTTPError
 from urllib.request import urlopen
 
 
@@ -25,9 +24,9 @@ from urllib.request import urlopen
 WEB_API_URL = 'http://nagareyama.ecom-plat.jp/map/api/feature/8?layers=%s&pagenum=%d'
 
 
-class PynyError(Exception):
+class WebApiError(Exception):
     """
-    当ライブラリで想定していない入出力があったことを示す例外。
+    Web APIへのリクエストが正常に完了しなかったことを示す例外。
     """
 
 
@@ -39,19 +38,13 @@ def get_all_data(layer_id):
     :type layer_id: str
     :return: 辞書にまとめられたデータのリスト
     :rtype: list
-    :raises PynyError: Web APIへの問い合わせが正常に完了しなかった
     """
     # データの件数を取得する
     data_count = get_data_count(layer_id)
 
-    # 流山市オープンデータWeb APIに問い合わせを行う
-    try:
-        with urlopen(WEB_API_URL % (layer_id, data_count)) as response:
-            encoding = response.headers.get_content_charset() or 'utf-8'
-            data = json.loads(response.read().decode(encoding, 'ignore'))
-            return data['results']
-    except HTTPError:
-        raise PynyError()
+    # 当該レイヤIDの全データを取得する
+    data = _get_json(WEB_API_URL % (layer_id, data_count))
+    return data['results']
 
 
 def get_data_count(layer_id):
@@ -62,13 +55,26 @@ def get_data_count(layer_id):
     :type layer_id: str
     :return: データの件数
     :rtype: int
-    :raises PynyError: Web APIへの問い合わせが正常に完了しなかった
     """
-    # 流山市オープンデータWeb APIに問い合わせを行う
+    # データの件数を取得する
+    data = _get_json(WEB_API_URL % (layer_id, 1))
+    return int(data['num'])
+
+
+def _get_json(url):
+    """
+    指定されたURLにGETでアクセスし、結果のJSONをPythonオブジェクトとして取得する。
+
+    :param url: URL
+    :type url: str
+    :return: Pythonオブジェクトに変換したJSONの内容
+    :rtype: dict
+    :raises WebApiError: Web APIへのリクエストが正常に完了しなかった
+    """
+    # JSONを取得してPythonオブジェクトに変換する
     try:
-        with urlopen(WEB_API_URL % (layer_id, 1)) as response:
+        with urlopen(url) as response:
             encoding = response.headers.get_content_charset() or 'utf-8'
-            data = json.loads(response.read().decode(encoding, 'ignore'))
-            return int(data['num'])
-    except HTTPError:
-        raise PynyError()
+            return json.loads(response.read().decode(encoding, 'ignore'))
+    except Exception as e:
+        raise WebApiError(e)

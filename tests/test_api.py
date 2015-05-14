@@ -144,7 +144,7 @@ class ApiTest(TestCase):
         [結果] PynyErrorが送出される。
         """
         from pyny import api
-        with self.assertRaises(api.PynyError):
+        with self.assertRaises(api.WebApiError):
             api.get_all_data('error')
 
     def test_get_data_count_01(self):
@@ -165,5 +165,5 @@ class ApiTest(TestCase):
         [結果] PynyErrorが送出される。
         """
         from pyny import api
-        with self.assertRaises(api.PynyError):
+        with self.assertRaises(api.WebApiError):
             api.get_data_count('error')
