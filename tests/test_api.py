@@ -141,7 +141,7 @@ class ApiTest(TestCase):
         """
         [対象] get_all_data() : No.02
         [条件] 無効なレイヤIDを指定して実行する。
-        [結果] PynyErrorが送出される。
+        [結果] WebApiErrorが送出される。
         """
         from pyny import api
         with self.assertRaises(api.WebApiError):
@@ -162,8 +162,69 @@ class ApiTest(TestCase):
         """
         [対象] get_data_count() : No.02
         [条件] 無効なレイヤIDを指定して実行する。
-        [結果] PynyErrorが送出される。
+        [結果] WebApiErrorが送出される。
         """
         from pyny import api
         with self.assertRaises(api.WebApiError):
             api.get_data_count('error')
+
+    def test_get_json_01(self):
+        """
+        [対象] _get_json() : No.01
+        [条件] 有効なURLを指定して実行する。
+        [結果] JSONを変換したPythonオブジェクトが返却される。
+        """
+        expected = {
+            'num': 100,
+            'results': [{
+                'files': {},
+                'distance': 0,
+                'status': 0,
+                'created': '2013/07/19 16:37:17',
+                'attrs': {
+                    'attr9': '',
+                    'attr10': '',
+                    'attr0': '1',
+                    'attr11': '',
+                    'attr12': '',
+                    'attr2': '流山市西深井829他',
+                    'attr1': '利根運河',
+                    'attr6': '139.902901',
+                    'attr5': '35.915248',
+                    'attr8': '明治時代に開削された江戸川と利根川を結ぶ延長9キロメートルの人工水路で、開削にあたってはオランダ人土木技師のムルデルが起用された。現在は市民の憩いの場として、運河水辺公園、運河緑道が整備されている。',
+                    'attr7': '東武野田線運河駅徒歩4分'
+                },
+                'feature_id': 1,
+                'moduserid': 0,
+                'layer_id': 'c1150',
+                'user_id': 307,
+                'mid': 0,
+                'geometry': 'POINT(139.902901 35.915248)'
+            }],
+        }
+
+        from pyny import api
+        actual = api._get_json('http://nagareyama.ecom-plat.jp/map/api/feature/8?layers=c1150&pagenum=1')
+        del(actual['_timestamp'])    # 実行するたびに値が変わってしまうためテスト対象外とする
+
+        self.assertEqual(expected, actual)
+
+    def test_get_json_02(self):
+        """
+        [対象] _get_json() : No.02
+        [条件] 無効なURLを指定して実行する。
+        [結果] WebApiErrorが送出される。
+        """
+        from pyny import api
+        with self.assertRaises(api.WebApiError):
+            api._get_json('error')
+
+    def test_get_json_03(self):
+        """
+        [対象] _get_json() : No.03
+        [条件] JSONを返却しないURLを指定して実行する。
+        [結果] WebApiErrorが送出される。
+        """
+        from pyny import api
+        with self.assertRaises(api.WebApiError):
+            api._get_json('http://thunder-claw.com/')
