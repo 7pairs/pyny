@@ -16,6 +16,7 @@
 # limitations under the License.
 #
 
+import datetime
 import decimal
 from unittest import TestCase
 
@@ -295,6 +296,90 @@ class FloatFieldTest(TestCase):
         """
         [対象] convert() : No.03
         [条件] 数値化できない文字列を指定して実行する。
+        [結果] ValueErrorが送出される。
+        """
+        target = self._get_target_object()
+        with self.assertRaises(ValueError):
+            target.convert('error')
+
+
+class DateFieldTest(TestCase):
+    """
+    DateFieldに対するテストコード。
+    """
+
+    def _get_target_object(self, *args, **kwargs):
+        """
+        テスト対象のオブジェクトを取得する。
+
+        :param args: 可変長引数
+        :type args: tuple
+        :param kwargs: キーワード引数
+        :type kwargs: dict
+        :return: テスト対象のフィールドオブジェクト
+        :rtype: pyny.fields.DateField
+        """
+        # テスト対象のオブジェクトを生成する
+        from pyny.fields import DateField
+        return DateField(*args, **kwargs)
+
+    def test_init_01(self):
+        """
+        [対象] __init__() : No.01
+        [条件] キーを指定して実行する。
+        [結果] プロパティが設定される。
+        """
+        target = self._get_target_object('date_field')
+
+        self.assertEqual('date_field', target.name)
+
+    def test_init_02(self):
+        """
+        [対象] __init__() : No.02
+        [条件] キーを指定せずに実行する。
+        [結果] プロパティに何も設定されない。
+        """
+        target = self._get_target_object()
+
+        self.assertIsNone(target.name)
+
+    def test_convert_01(self):
+        """
+        [対象] convert() : No.01
+        [条件] 日付を指定して実行する。
+        [結果] 指定した値がそのまま返却される。
+        """
+        target = self._get_target_object()
+        actual = target.convert(datetime.date(2013, 11, 10))
+
+        self.assertEqual(datetime.date(2013, 11, 10), actual)
+
+    def test_convert_02(self):
+        """
+        [対象] convert() : No.02
+        [条件] 文字列を指定して実行する。
+        [結果] 指定した値がデフォルトフォーマットにより日付化して返却される。
+        """
+        target = self._get_target_object()
+        actual = target.convert('1989/06/23')
+
+        self.assertEqual(datetime.date(1989, 6, 23), actual)
+
+    def test_convert_03(self):
+        """
+        [対象] convert() : No.03
+        [条件] フォーマットを指定してオブジェクトを生成し、文字列を指定して実行する。
+        [結果] 指定した値が指定したフォーマットにより日付化して返却される。
+        """
+        target = self._get_target_object(fmt='%Y-%m-%d')
+        actual = target.convert('1989-10-19')
+
+        self.assertEqual(datetime.date(1989, 10, 19), actual)
+
+    def test_convert_04(self):
+        """
+        [対象] convert() : No.04
+        [条件] 日付化できない文字列を指定して実行する。
         [結果] ValueErrorが送出される。
         """
         target = self._get_target_object()
