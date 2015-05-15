@@ -80,3 +80,76 @@ class StringFieldTest(TestCase):
         actual = target.convert(13)
 
         self.assertEqual('13', actual)
+
+
+class IntegerFieldTest(TestCase):
+    """
+    IntegerFieldに対するテストコード。
+    """
+
+    def _get_target_object(self, *args, **kwargs):
+        """
+        テスト対象のオブジェクトを取得する。
+
+        :param args: 可変長引数
+        :type args: tuple
+        :param kwargs: キーワード引数
+        :type kwargs: dict
+        :return: テスト対象のフィールドオブジェクト
+        :rtype: pyny.fields.IntegerField
+        """
+        # テスト対象のオブジェクトを生成する
+        from pyny.fields import IntegerField
+        return IntegerField(*args, **kwargs)
+
+    def test_init_01(self):
+        """
+        [対象] __init__() : No.01
+        [条件] キーを指定して実行する。
+        [結果] プロパティが設定される。
+        """
+        target = self._get_target_object('integer_field')
+
+        self.assertEqual('integer_field', target.name)
+
+    def test_init_02(self):
+        """
+        [対象] __init__() : No.02
+        [条件] キーを指定せずに実行する。
+        [結果] プロパティに何も設定されない。
+        """
+        target = self._get_target_object()
+
+        self.assertIsNone(target.name)
+
+    def test_convert_01(self):
+        """
+        [対象] convert() : No.01
+        [条件] 数値を指定して実行する。
+        [結果] 指定した値がそのまま返却される。
+        """
+        target = self._get_target_object()
+        actual = target.convert(35)
+
+        self.assertEqual(35, actual)
+
+    def test_convert_02(self):
+        """
+        [対象] convert() : No.02
+        [条件] 文字列を指定して実行する。
+        [結果] 指定した値が整数化して返却される。
+        """
+        target = self._get_target_object()
+        actual = target.convert('32')
+
+        self.assertEqual(32, actual)
+
+    def test_convert_03(self):
+        """
+        [対象] convert() : No.03
+        [条件] 整数化できない文字列を指定して実行する。
+        [結果] ValueErrorが送出される。
+        """
+        target = self._get_target_object()
+        with self.assertRaises(ValueError):
+            target.convert('error')
