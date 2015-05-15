@@ -16,6 +16,7 @@
 # limitations under the License.
 #
 
+import decimal
 from unittest import TestCase
 
 
@@ -125,7 +126,7 @@ class IntegerFieldTest(TestCase):
     def test_convert_01(self):
         """
         [対象] convert() : No.01
-        [条件] 数値を指定して実行する。
+        [条件] 整数を指定して実行する。
         [結果] 指定した値がそのまま返却される。
         """
         target = self._get_target_object()
@@ -152,4 +153,77 @@ class IntegerFieldTest(TestCase):
         """
         target = self._get_target_object()
         with self.assertRaises(ValueError):
+            target.convert('error')
+
+
+class DecimalFieldTest(TestCase):
+    """
+    DecimalFieldに対するテストコード。
+    """
+
+    def _get_target_object(self, *args, **kwargs):
+        """
+        テスト対象のオブジェクトを取得する。
+
+        :param args: 可変長引数
+        :type args: tuple
+        :param kwargs: キーワード引数
+        :type kwargs: dict
+        :return: テスト対象のフィールドオブジェクト
+        :rtype: pyny.fields.DecimalField
+        """
+        # テスト対象のオブジェクトを生成する
+        from pyny.fields import DecimalField
+        return DecimalField(*args, **kwargs)
+
+    def test_init_01(self):
+        """
+        [対象] __init__() : No.01
+        [条件] キーを指定して実行する。
+        [結果] プロパティが設定される。
+        """
+        target = self._get_target_object('decimal_field')
+
+        self.assertEqual('decimal_field', target.name)
+
+    def test_init_02(self):
+        """
+        [対象] __init__() : No.02
+        [条件] キーを指定せずに実行する。
+        [結果] プロパティに何も設定されない。
+        """
+        target = self._get_target_object()
+
+        self.assertIsNone(target.name)
+
+    def test_convert_01(self):
+        """
+        [対象] convert() : No.01
+        [条件] 固定小数点数を指定して実行する。
+        [結果] 指定した値がそのまま返却される。
+        """
+        target = self._get_target_object()
+        actual = target.convert(decimal.Decimal('3.14'))
+
+        self.assertEqual(decimal.Decimal('3.14'), actual)
+
+    def test_convert_02(self):
+        """
+        [対象] convert() : No.02
+        [条件] 文字列を指定して実行する。
+        [結果] 指定した値が数値化して返却される。
+        """
+        target = self._get_target_object()
+        actual = target.convert('2.71828')
+
+        self.assertEqual(decimal.Decimal('2.71828'), actual)
+
+    def test_convert_03(self):
+        """
+        [対象] convert() : No.03
+        [条件] 数値化できない文字列を指定して実行する。
+        [結果] InvalidOperationが送出される。
+        """
+        target = self._get_target_object()
+        with self.assertRaises(decimal.InvalidOperation):
             target.convert('error')
