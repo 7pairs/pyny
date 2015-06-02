@@ -56,7 +56,9 @@ class FloatModel(Model):
     """
     FloatFieldをテストするためのモデル。
     """
-    longitude = FloatField('attrs.attr7')
+    float1 = FloatField()
+    float2 = FloatField('float')
+    float3 = FloatField('attrs.attr3')
 
 
 class DateModel(Model):
@@ -64,7 +66,7 @@ class DateModel(Model):
     DateFieldをテストするためのモデル。
     """
     date1 = DateField()
-    date2 = DateField('data')
+    date2 = DateField('date')
     date3 = DateField('attrs.attr3')
 
 
@@ -131,17 +133,31 @@ class ModelTest(TestCase):
         self.assertEquals(decimal.Decimal('0'), actual[0].mod)
         self.assertEquals(decimal.Decimal('35.8562708'), actual[0].latitude)
 
-    def test_get_all_data_06(self):
+    @patch('pyny.models.api._get_json')
+    def test_get_all_data_06(self, get_json):
         """
         [対象] get_all_data() : No.06
         [条件] FloatFieldを持つモデルの当該メソッドを実行する。
         [結果] 各フィールドに値が設定される。
         """
+        get_json.return_value = {
+            'num': 1,
+            'results': [{
+                'float': '123.456',
+                'float1': '456.789',
+                'attrs': {
+                    'attr3': '789.123'
+                },
+            }],
+        }
+
         actual = FloatModel.get_all_data('c1161')
 
-        self.assertEquals(139.9028991, actual[0].longitude)
+        self.assertEquals(456.789, actual[0].float1)
+        self.assertEquals(123.456, actual[0].float2)
+        self.assertEquals(789.123, actual[0].float3)
 
-    @patch('pyny.api._get_json')
+    @patch('pyny.models.api._get_json')
     def test_get_all_data_07(self, get_json):
         """
         [対象] get_all_data() : No.07
@@ -149,11 +165,14 @@ class ModelTest(TestCase):
         [結果] 各フィールドに値が設定される。
         """
         get_json.return_value = {
-            'date': '1989/06/23',
-            'date1': '1988/10/19',
-            'attrs': {
-                'attr3': '2008/11/09'
-            },
+            'num': 1,
+            'results': [{
+                'date': '1989/06/23',
+                'date1': '1988/10/19',
+                'attrs': {
+                    'attr3': '2008/11/09'
+                },
+            }],
         }
 
         actual = DateModel.get_all_data('c1161')
