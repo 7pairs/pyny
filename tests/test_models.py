@@ -18,7 +18,7 @@
 
 from unittest import TestCase
 
-from pyny.fields import StringField
+from pyny.fields import IntegerField, StringField
 from pyny.models import Model
 
 
@@ -29,6 +29,15 @@ class StringModel(Model):
     created = StringField()
     geo = StringField('geometry')
     name = StringField('attrs.attr2')
+
+
+class IntegerModel(Model):
+    """
+    IntegerFieldをテストするためのモデル。
+    """
+    status = IntegerField()
+    id = IntegerField('feature_id')
+    attr = IntegerField('attrs.attr0')
 
 
 class ModelTest(TestCase):
@@ -61,7 +70,7 @@ class ModelTest(TestCase):
     def test_get_all_data_03(self):
         """
         [対象] get_all_data() : No.03
-        [条件] 文字列フィールドを持つモデルの当該メソッドを実行する。
+        [条件] StringFieldを持つモデルの当該メソッドを実行する。
         [結果] 各フィールドに値が設定される。
         """
         actual = StringModel.get_all_data('c1161')
@@ -69,3 +78,15 @@ class ModelTest(TestCase):
         self.assertEquals('2013/07/19 17:01:02', actual[0].created)
         self.assertEquals('POINT(139.9028991 35.8562708)', actual[0].geo)
         self.assertEquals('流山市役所', actual[0].name)
+
+    def test_get_all_data_04(self):
+        """
+        [対象] get_all_data() : No.04
+        [条件] IntegerFieldを持つモデルの当該メソッドを実行する。
+        [結果] 各フィールドに値が設定される。
+        """
+        actual = IntegerModel.get_all_data('c1150')
+
+        self.assertEquals(0, actual[0].status)
+        self.assertEquals(1, actual[0].id)
+        self.assertEquals(1, actual[0].attr)
