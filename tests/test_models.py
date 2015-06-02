@@ -16,9 +16,10 @@
 # limitations under the License.
 #
 
+import decimal
 from unittest import TestCase
 
-from pyny.fields import IntegerField, StringField
+from pyny.fields import DecimalField, IntegerField, StringField
 from pyny.models import Model
 
 
@@ -38,6 +39,15 @@ class IntegerModel(Model):
     status = IntegerField()
     id = IntegerField('feature_id')
     attr = IntegerField('attrs.attr0')
+
+
+class DecimalModel(Model):
+    """
+    DecimalFieldをテストするためのモデル。
+    """
+    user_id = DecimalField()
+    mod = DecimalField('moduserid')
+    latitude = DecimalField('attrs.attr6')
 
 
 class ModelTest(TestCase):
@@ -90,3 +100,15 @@ class ModelTest(TestCase):
         self.assertEquals(0, actual[0].status)
         self.assertEquals(1, actual[0].id)
         self.assertEquals(1, actual[0].attr)
+
+    def test_get_all_data_05(self):
+        """
+        [対象] get_all_data() : No.05
+        [条件] DecimalFieldを持つモデルの当該メソッドを実行する。
+        [結果] 各フィールドに値が設定される。
+        """
+        actual = DecimalModel.get_all_data('c1161')
+
+        self.assertEquals(decimal.Decimal('307'), actual[0].user_id)
+        self.assertEquals(decimal.Decimal('0'), actual[0].mod)
+        self.assertEquals(decimal.Decimal('35.8562708'), actual[0].latitude)
