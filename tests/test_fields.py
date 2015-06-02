@@ -372,9 +372,9 @@ class DateFieldTest(TestCase):
         [結果] 指定した値が指定したフォーマットにより日付化して返却される。
         """
         target = self._get_target_object(fmt='%Y-%m-%d')
-        actual = target.convert('1989-10-19')
+        actual = target.convert('1988-10-19')
 
-        self.assertEqual(datetime.date(1989, 10, 19), actual)
+        self.assertEqual(datetime.date(1988, 10, 19), actual)
 
     def test_convert_04(self):
         """

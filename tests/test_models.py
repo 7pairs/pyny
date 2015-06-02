@@ -16,10 +16,12 @@
 # limitations under the License.
 #
 
+import datetime
 import decimal
+from mock import patch
 from unittest import TestCase
 
-from pyny.fields import DecimalField, FloatField, IntegerField, StringField
+from pyny.fields import DateField, DecimalField, FloatField, IntegerField, StringField
 from pyny.models import Model
 
 
@@ -55,6 +57,15 @@ class FloatModel(Model):
     FloatFieldをテストするためのモデル。
     """
     longitude = FloatField('attrs.attr7')
+
+
+class DateModel(Model):
+    """
+    DateFieldをテストするためのモデル。
+    """
+    date1 = DateField()
+    date2 = DateField('data')
+    date3 = DateField('attrs.attr3')
 
 
 class ModelTest(TestCase):
@@ -129,3 +140,24 @@ class ModelTest(TestCase):
         actual = FloatModel.get_all_data('c1161')
 
         self.assertEquals(139.9028991, actual[0].longitude)
+
+    @patch('pyny.api._get_json')
+    def test_get_all_data_07(self, get_json):
+        """
+        [対象] get_all_data() : No.07
+        [条件] DateFieldを持つモデルの当該メソッドを実行する。
+        [結果] 各フィールドに値が設定される。
+        """
+        get_json.return_value = {
+            'date': '1989/06/23',
+            'date1': '1988/10/19',
+            'attrs': {
+                'attr3': '2008/11/09'
+            },
+        }
+
+        actual = DateModel.get_all_data('c1161')
+
+        self.assertEquals(datetime.date(1988, 10, 19), actual[0].date1)
+        self.assertEquals(datetime.date(1989, 6, 23), actual[0].date2)
+        self.assertEquals(datetime.date(2008, 11, 9), actual[0].date3)
