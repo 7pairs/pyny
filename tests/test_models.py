@@ -19,7 +19,7 @@
 import decimal
 from unittest import TestCase
 
-from pyny.fields import DecimalField, IntegerField, StringField
+from pyny.fields import DecimalField, FloatField, IntegerField, StringField
 from pyny.models import Model
 
 
@@ -48,6 +48,13 @@ class DecimalModel(Model):
     user_id = DecimalField()
     mod = DecimalField('moduserid')
     latitude = DecimalField('attrs.attr6')
+
+
+class FloatModel(Model):
+    """
+    FloatFieldをテストするためのモデル。
+    """
+    longitude = FloatField('attrs.attr7')
 
 
 class ModelTest(TestCase):
@@ -112,3 +119,13 @@ class ModelTest(TestCase):
         self.assertEquals(decimal.Decimal('307'), actual[0].user_id)
         self.assertEquals(decimal.Decimal('0'), actual[0].mod)
         self.assertEquals(decimal.Decimal('35.8562708'), actual[0].latitude)
+
+    def test_get_all_data_06(self):
+        """
+        [対象] get_all_data() : No.06
+        [条件] FloatFieldを持つモデルの当該メソッドを実行する。
+        [結果] 各フィールドに値が設定される。
+        """
+        actual = FloatModel.get_all_data('c1161')
+
+        self.assertEquals(139.9028991, actual[0].longitude)
