@@ -141,6 +141,45 @@ class ModelTest(TestCase):
         self.assertEquals(decimal.Decimal('0'), actual.mod)
         self.assertEquals(decimal.Decimal('35.843176'), actual.latitude)
 
+    @patch('pyny.models.api._get_json')
+    def test_get_all_07(self, get_json):
+        """
+        [対象] get_data() : No.06
+        [条件] FloatFieldを持つモデルの当該メソッドを実行する。
+        [結果] 各フィールドに値が設定される。
+        """
+        get_json.return_value = {
+            'num': 3,
+            'results': [{
+                'float': '123.456',
+                'float1': '456.789',
+                'attrs': {
+                    'attr3': '789.123',
+                },
+                'feature_id': 1,
+            }, {
+                'float': '112.233',
+                'float1': '445.566',
+                'attrs': {
+                    'attr3': '778.899',
+                },
+                'feature_id': 2,
+            }, {
+                'float': '111.222',
+                'float1': '444.555',
+                'attrs': {
+                    'attr3': '777.888',
+                },
+                'feature_id': 3,
+            }],
+        }
+
+        actual = FloatModel.get_data('dummy', 2)
+
+        self.assertEquals(445.566, actual.float1)
+        self.assertEquals(112.233, actual.float2)
+        self.assertEquals(778.899, actual.float3)
+
     def test_get_all_data_01(self):
         """
         [対象] get_all_data() : No.01
@@ -217,7 +256,7 @@ class ModelTest(TestCase):
             }],
         }
 
-        actual = FloatModel.get_all_data('c1161')
+        actual = FloatModel.get_all_data('dummy')
 
         self.assertEquals(456.789, actual[0].float1)
         self.assertEquals(123.456, actual[0].float2)
@@ -241,7 +280,7 @@ class ModelTest(TestCase):
             }],
         }
 
-        actual = DateModel.get_all_data('c1161')
+        actual = DateModel.get_all_data('dummy')
 
         self.assertEquals(datetime.date(1988, 10, 19), actual[0].date1)
         self.assertEquals(datetime.date(1989, 6, 23), actual[0].date2)
