@@ -45,6 +45,25 @@ class Model:
             setattr(self, k, v.convert(value) if value is not None else None)
 
     @classmethod
+    def get_data(cls, layer_id, feature_id):
+        """
+        指定されたレイヤID、項目IDにマッチするデータを取得する。
+
+        :param layer_id: レイヤID
+        :type layer_id: str
+        :param feature_id: 項目ID
+        :type feature_id: int
+        :return: マッチするデータが存在する場合はそのデータ、存在しない場合はNone
+        :rtype: Model
+        """
+        # 条件に合致するデータを取得する
+        data = api.get_data(layer_id, feature_id)
+        if data:
+            return cls(data)
+        else:
+            return None
+
+    @classmethod
     def get_all_data(cls, layer_id):
         """
         指定されたレイヤIDにマッチするすべてのデータを取得する。

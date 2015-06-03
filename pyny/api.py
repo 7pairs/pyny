@@ -30,6 +30,28 @@ class WebApiError(Exception):
     """
 
 
+def get_data(layer_id, feature_id):
+    """
+    指定されたレイヤID、項目IDにマッチするデータを取得する。
+
+    :param layer_id: レイヤID
+    :type layer_id: str
+    :param feature_id: 項目ID
+    :type feature_id: int
+    :return: マッチするデータが存在する場合はそのデータ、存在しない場合はNone
+    :rtype: dict
+    """
+    # すべてのデータを取得する
+    all_data = get_all_data(layer_id)
+
+    # 項目IDが一致するデータを探索する
+    for data in all_data:
+        if data['feature_id'] == feature_id:
+            return data
+    else:
+        return None
+
+
 def get_all_data(layer_id):
     """
     指定されたレイヤIDにマッチするすべてのデータを取得する。
