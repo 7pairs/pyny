@@ -75,6 +75,36 @@ class ModelTest(TestCase):
     Modelに対するテストコード。
     """
 
+    def test_get_data_01(self):
+        """
+        [対象] get_data() : No.01
+        [条件] 有効なレイヤID、項目IDを指定して実行する。
+        [結果] 定義されたモデルが返却される。
+        """
+        actual = StringModel.get_data('c1161', 2)
+
+        self.assertTrue(isinstance(actual, StringModel))
+
+    def test_get_data_02(self):
+        """
+        [対象] get_data() : No.02
+        [条件] 有効なレイヤID、無効な項目IDを指定して実行する。
+        [結果] Noneが返却される。
+        """
+        actual = StringModel.get_data('c1161', 2015)
+
+        self.assertIsNone(actual)
+
+    def test_get_data_03(self):
+        """
+        [対象] get_data() : No.03
+        [条件] 無効なレイヤIDを指定して実行する。
+        [結果] WebApiErrorが送出される。
+        """
+        from pyny import api
+        with self.assertRaises(api.WebApiError):
+            StringModel.get_data('error', 2)
+
     def test_get_all_data_01(self):
         """
         [対象] get_all_data() : No.01
