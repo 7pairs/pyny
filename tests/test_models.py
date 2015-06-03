@@ -81,7 +81,7 @@ class ModelTest(TestCase):
         [条件] 有効なレイヤID、項目IDを指定して実行する。
         [結果] 定義されたモデルが返却される。
         """
-        actual = StringModel.get_data('c1161', 2)
+        actual = StringModel.get_data('c1161', 3)
 
         self.assertTrue(isinstance(actual, StringModel))
 
@@ -103,7 +103,19 @@ class ModelTest(TestCase):
         """
         from pyny import api
         with self.assertRaises(api.WebApiError):
-            StringModel.get_data('error', 2)
+            StringModel.get_data('error', 3)
+
+    def test_get_data_04(self):
+        """
+        [対象] get_data() : No.04
+        [条件] StringFieldを持つモデルの当該メソッドを実行する。
+        [結果] 各フィールドに値が設定される。
+        """
+        actual = StringModel.get_data('c1161', 3)
+
+        self.assertEquals('2013/07/19 17:01:02', actual.created)
+        self.assertEquals('POINT(139.942968 35.843176)', actual.geo)
+        self.assertEquals('東部出張所', actual.name)
 
     def test_get_all_data_01(self):
         """
