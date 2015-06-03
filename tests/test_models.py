@@ -117,6 +117,18 @@ class ModelTest(TestCase):
         self.assertEquals('POINT(139.942968 35.843176)', actual.geo)
         self.assertEquals('東部出張所', actual.name)
 
+    def test_get_data_05(self):
+        """
+        [対象] get_data() : No.05
+        [条件] IntegerFieldを持つモデルの当該メソッドを実行する。
+        [結果] 各フィールドに値が設定される。
+        """
+        actual = IntegerModel.get_data('c1150', 3)
+
+        self.assertEquals(0, actual.status)
+        self.assertEquals(3, actual.id)
+        self.assertEquals(3, actual.attr)
+
     def test_get_all_data_01(self):
         """
         [対象] get_all_data() : No.01
