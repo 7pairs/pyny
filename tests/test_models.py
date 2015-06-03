@@ -146,7 +146,7 @@ class ModelTest(TestCase):
                 'float': '123.456',
                 'float1': '456.789',
                 'attrs': {
-                    'attr3': '789.123'
+                    'attr3': '789.123',
                 },
             }],
         }
@@ -170,7 +170,7 @@ class ModelTest(TestCase):
                 'date': '1989/06/23',
                 'date1': '1988/10/19',
                 'attrs': {
-                    'attr3': '2008/11/09'
+                    'attr3': '2008/11/09',
                 },
             }],
         }

@@ -24,11 +24,65 @@ class ApiTest(TestCase):
     api.pyに対するテストコード。
     """
 
+    def test_get_data_01(self):
+        """
+        [対象] get_data() : No.01
+        [条件] 有効なレイヤID、項目IDを指定して実行する。
+        [結果] JSONを変換した辞書が返却される。
+        """
+        expected = {
+            'files': {},
+            'distance': 0,
+            'status': 0,
+            'created': '2013/07/19 17:01:02',
+            'attrs': {
+                'attr0': '市役所・出張所',
+                'attr2': 'おおたかの森出張所',
+                'attr1': '出張所',
+                'attr3': '流山市西初石6-185-2（流山おおたかの森S・C内3階）',
+                'attr6': '35.8706965',
+                'attr8': '04-7154-0333 ',
+                'attr7': '139.9261438',
+            },
+            'feature_id': 2,
+            'moduserid': 0,
+            'layer_id': 'c1161',
+            'user_id': 307,
+            'mid': 0,
+            'geometry': 'POINT(139.9261438 35.8706965)',
+        }
+
+        from pyny import api
+        actual = api.get_data('c1161', 2)
+
+        self.assertEqual(expected, actual)
+
+    def test_get_data_02(self):
+        """
+        [対象] get_data() : No.02
+        [条件] 有効なレイヤID、無効な項目IDを指定して実行する。
+        [結果] Noneが返却される。
+        """
+        from pyny import api
+        actual = api.get_data('c1161', 2015)
+
+        self.assertIsNone(actual)
+
+    def test_get_data_03(self):
+        """
+        [対象] get_data() : No.03
+        [条件] 無効なレイヤIDを指定して実行する。
+        [結果] WebApiErrorが送出される。
+        """
+        from pyny import api
+        with self.assertRaises(api.WebApiError):
+            api.get_data('error', 2)
+
     def test_get_all_data_01(self):
         """
         [対象] get_all_data() : No.01
         [条件] 有効なレイヤIDを指定して実行する。
-        [結果] JSONを変換した辞書が返却される。
+        [結果] JSONを変換した辞書のリストが返却される。
         """
         expected = [{
             'files': {},
@@ -42,7 +96,7 @@ class ApiTest(TestCase):
                 'attr3': '流山市平和台1\u20101\u20101',
                 'attr6': '35.8562708',
                 'attr8': '04-7158-1111',
-                'attr7': '139.9028991'
+                'attr7': '139.9028991',
             },
             'feature_id': 1,
             'moduserid': 0,
@@ -62,14 +116,14 @@ class ApiTest(TestCase):
                 'attr3': '流山市西初石6-185-2（流山おおたかの森S・C内3階）',
                 'attr6': '35.8706965',
                 'attr8': '04-7154-0333 ',
-                'attr7': '139.9261438'
+                'attr7': '139.9261438',
             },
             'feature_id': 2,
             'moduserid': 0,
             'layer_id': 'c1161',
             'user_id': 307,
             'mid': 0,
-            'geometry': 'POINT(139.9261438 35.8706965)'
+            'geometry': 'POINT(139.9261438 35.8706965)',
         }, {
             'files': {},
             'distance': 0,
@@ -82,14 +136,14 @@ class ApiTest(TestCase):
                 'attr3': '流山市名都借314',
                 'attr6': '35.843176',
                 'attr8': '04-7144-2175',
-                'attr7': '139.942968'
+                'attr7': '139.942968',
             },
             'feature_id': 3,
             'moduserid': 0,
             'layer_id': 'c1161',
             'user_id': 307,
             'mid': 0,
-            'geometry': 'POINT(139.942968 35.843176)'
+            'geometry': 'POINT(139.942968 35.843176)',
         }, {
             'files': {},
             'distance': 0,
@@ -102,14 +156,14 @@ class ApiTest(TestCase):
                 'attr3': '流山市江戸川台東1\u20104（JA流山市ビル内）',
                 'attr6': '35.8976138',
                 'attr8': '04-7152-3132',
-                'attr7': '139.9107444'
+                'attr7': '139.9107444',
             },
             'feature_id': 4,
             'moduserid': 0,
             'layer_id': 'c1161',
             'user_id': 307,
             'mid': 0,
-            'geometry': 'POINT(139.9107444 35.8976138)'
+            'geometry': 'POINT(139.9107444 35.8976138)',
         }, {
             'files': {},
             'distance': 0,
@@ -122,14 +176,14 @@ class ApiTest(TestCase):
                 'attr3': '流山市南流山3\u20103\u20101（南流山センター内）',
                 'attr6': '35.8388429',
                 'attr8': '04-7159-4512',
-                'attr7': '139.9017914'
+                'attr7': '139.9017914',
             },
             'feature_id': 5,
             'moduserid': 0,
             'layer_id': 'c1161',
             'user_id': 307,
             'mid': 0,
-            'geometry': 'POINT(139.9017914 35.8388429)'
+            'geometry': 'POINT(139.9017914 35.8388429)',
         }]
 
         from pyny import api
@@ -192,14 +246,14 @@ class ApiTest(TestCase):
                     'attr6': '139.902901',
                     'attr5': '35.915248',
                     'attr8': '明治時代に開削された江戸川と利根川を結ぶ延長9キロメートルの人工水路で、開削にあたってはオランダ人土木技師のムルデルが起用された。現在は市民の憩いの場として、運河水辺公園、運河緑道が整備されている。',
-                    'attr7': '東武野田線運河駅徒歩4分'
+                    'attr7': '東武野田線運河駅徒歩4分',
                 },
                 'feature_id': 1,
                 'moduserid': 0,
                 'layer_id': 'c1150',
                 'user_id': 307,
                 'mid': 0,
-                'geometry': 'POINT(139.902901 35.915248)'
+                'geometry': 'POINT(139.902901 35.915248)',
             }],
         }
 
