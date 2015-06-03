@@ -129,6 +129,18 @@ class ModelTest(TestCase):
         self.assertEquals(3, actual.id)
         self.assertEquals(3, actual.attr)
 
+    def test_get_data_06(self):
+        """
+        [対象] get_data() : No.06
+        [条件] DecimalFieldを持つモデルの当該メソッドを実行する。
+        [結果] 各フィールドに値が設定される。
+        """
+        actual = DecimalModel.get_data('c1161', 3)
+
+        self.assertEquals(decimal.Decimal('307'), actual.user_id)
+        self.assertEquals(decimal.Decimal('0'), actual.mod)
+        self.assertEquals(decimal.Decimal('35.843176'), actual.latitude)
+
     def test_get_all_data_01(self):
         """
         [対象] get_all_data() : No.01
