@@ -199,7 +199,7 @@ class DateField(BaseField):
 
     def convert(self, target):
         """
-        指定された値を日付に変換する
+        指定された値を日付に変換する。
 
         :param target: 変換対象
         :type target: object
@@ -210,5 +210,40 @@ class DateField(BaseField):
         if isinstance(target, datetime.date):
             return target
 
-        # 対象を日時に変換する
+        # 対象を日付に変換する
         return datetime.datetime.strptime(str(target), self._fmt).date()
+
+
+class DateTimeField(BaseField):
+    """
+    日時を表現するフィールドクラス。
+    """
+
+    def __init__(self, name=None, fmt='%Y/%m/%d %H:%M:%S'):
+        """
+        DateTimeFieldを構築する。
+
+        :param name: 当フィールドが参照する値のキー
+        :type name: str
+        :param fmt: 日時のフォーマット
+        :type fmt: str
+        """
+        # プロパティを設定する
+        super().__init__(name)
+        self._fmt = fmt
+
+    def convert(self, target):
+        """
+        指定された値を日時に変換する。
+
+        :param target: 変換対象
+        :type target: object
+        :return: 変換後の値
+        :rtype: datetime.datetime
+        """
+        # 対象が日時の場合は変換せずに返却する
+        if isinstance(target, datetime.datetime):
+            return target
+
+        # 対象を日時に変換する
+        return datetime.datetime.strptime(str(target), self._fmt)
