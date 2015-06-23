@@ -383,8 +383,8 @@ class ModelTest(TestCase):
         get_json.return_value = {
             'num': 1,
             'results': [{
-                'date': '1989/06/23 12:23:34',
-                'date1': '1988/10/19 01:12:23',
+                'date_time': '1989/06/23 12:23:34',
+                'date_time1': '1988/10/19 01:12:23',
                 'attrs': {
                     'attr3': '2008/11/09 23:34:45',
                 },
