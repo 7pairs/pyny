@@ -17,10 +17,10 @@
 #
 
 # インストール対象のライブラリ
-INSTALL_LIBRARIES=('nose' 'mock')
+INSTALL_LIBRARIES=('nose' 'mock' 'wheel')
 
 # requirements.txtに記載しないライブラリ
-EXCLUDE_LIBRARIES=()
+EXCLUDE_LIBRARIES=('wheel')
 
 # インストール済みのライブラリをいったんアンインストールする
 echo '*****  Uninstall START ' `date +'%Y-%m-%d %H:%M:%S'` ' *****'
