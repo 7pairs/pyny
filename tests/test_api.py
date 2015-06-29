@@ -24,9 +24,9 @@ class ApiTest(TestCase):
     api.pyに対するテストコード。
     """
 
-    def test_get_data_01(self):
+    def test_get_by_id_01(self):
         """
-        [対象] get_data() : No.01
+        [対象] get_by_id() : No.01
         [条件] 有効なレイヤID、項目IDを指定して実行する。
         [結果] JSONを変換した辞書が返却される。
         """
@@ -53,30 +53,30 @@ class ApiTest(TestCase):
         }
 
         from pyny import api
-        actual = api.get_data('c1161', 2)
+        actual = api.get_by_id('c1161', 2)
 
         self.assertEqual(expected, actual)
 
-    def test_get_data_02(self):
+    def test_get_by_id_02(self):
         """
-        [対象] get_data() : No.02
+        [対象] get_by_id() : No.02
         [条件] 有効なレイヤID、無効な項目IDを指定して実行する。
         [結果] Noneが返却される。
         """
         from pyny import api
-        actual = api.get_data('c1161', 2015)
+        actual = api.get_by_id('c1161', 2015)
 
         self.assertIsNone(actual)
 
-    def test_get_data_03(self):
+    def test_get_by_id_03(self):
         """
-        [対象] get_data() : No.03
+        [対象] get_by_id() : No.03
         [条件] 無効なレイヤIDを指定して実行する。
         [結果] WebApiErrorが送出される。
         """
         from pyny import api
         with self.assertRaises(api.WebApiError):
-            api.get_data('error', 2)
+            api.get_by_id('error', 2)
 
     def test_get_all_data_01(self):
         """

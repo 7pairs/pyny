@@ -30,7 +30,7 @@ class WebApiError(Exception):
     """
 
 
-def get_data(layer_id, feature_id):
+def get_by_id(layer_id, feature_id):
     """
     指定されたレイヤID、項目IDにマッチするデータを取得する。
 

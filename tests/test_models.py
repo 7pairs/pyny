@@ -84,76 +84,76 @@ class ModelTest(TestCase):
     Modelに対するテストコード。
     """
 
-    def test_get_data_01(self):
+    def test_get_by_id_01(self):
         """
-        [対象] get_data() : No.01
+        [対象] get_by_id() : No.01
         [条件] 有効なレイヤID、項目IDを指定して実行する。
         [結果] 定義されたモデルが返却される。
         """
-        actual = StringModel.get_data('c1161', 3)
+        actual = StringModel.get_by_id('c1161', 3)
 
         self.assertTrue(isinstance(actual, StringModel))
 
-    def test_get_data_02(self):
+    def test_get_by_id_02(self):
         """
-        [対象] get_data() : No.02
+        [対象] get_by_id() : No.02
         [条件] 有効なレイヤID、無効な項目IDを指定して実行する。
         [結果] Noneが返却される。
         """
-        actual = StringModel.get_data('c1161', 2015)
+        actual = StringModel.get_by_id('c1161', 2015)
 
         self.assertIsNone(actual)
 
-    def test_get_data_03(self):
+    def test_get_by_id_03(self):
         """
-        [対象] get_data() : No.03
+        [対象] get_by_id() : No.03
         [条件] 無効なレイヤIDを指定して実行する。
         [結果] WebApiErrorが送出される。
         """
         from pyny import api
         with self.assertRaises(api.WebApiError):
-            StringModel.get_data('error', 3)
+            StringModel.get_by_id('error', 3)
 
-    def test_get_data_04(self):
+    def test_get_by_id_04(self):
         """
-        [対象] get_data() : No.04
+        [対象] get_by_id() : No.04
         [条件] StringFieldを持つモデルの当該メソッドを実行する。
         [結果] 各フィールドに値が設定される。
         """
-        actual = StringModel.get_data('c1161', 3)
+        actual = StringModel.get_by_id('c1161', 3)
 
         self.assertEquals('2013/07/19 17:01:02', actual.created)
         self.assertEquals('POINT(139.942968 35.843176)', actual.geo)
         self.assertEquals('東部出張所', actual.name)
 
-    def test_get_data_05(self):
+    def test_get_by_id_05(self):
         """
-        [対象] get_data() : No.05
+        [対象] get_by_id() : No.05
         [条件] IntegerFieldを持つモデルの当該メソッドを実行する。
         [結果] 各フィールドに値が設定される。
         """
-        actual = IntegerModel.get_data('c1150', 3)
+        actual = IntegerModel.get_by_id('c1150', 3)
 
         self.assertEquals(0, actual.status)
         self.assertEquals(3, actual.id)
         self.assertEquals(3, actual.attr)
 
-    def test_get_data_06(self):
+    def test_get_by_id_06(self):
         """
-        [対象] get_data() : No.06
+        [対象] get_by_id() : No.06
         [条件] DecimalFieldを持つモデルの当該メソッドを実行する。
         [結果] 各フィールドに値が設定される。
         """
-        actual = DecimalModel.get_data('c1161', 3)
+        actual = DecimalModel.get_by_id('c1161', 3)
 
         self.assertEquals(decimal.Decimal('307'), actual.user_id)
         self.assertEquals(decimal.Decimal('0'), actual.mod)
         self.assertEquals(decimal.Decimal('35.843176'), actual.latitude)
 
     @patch('pyny.models.api._get_json')
-    def test_get_data_07(self, get_json):
+    def test_get_by_id_07(self, get_json):
         """
-        [対象] get_data() : No.06
+        [対象] get_by_id() : No.06
         [条件] FloatFieldを持つモデルの当該メソッドを実行する。
         [結果] 各フィールドに値が設定される。
         """
@@ -183,16 +183,16 @@ class ModelTest(TestCase):
             }],
         }
 
-        actual = FloatModel.get_data('dummy', 2)
+        actual = FloatModel.get_by_id('dummy', 2)
 
         self.assertEquals(445.566, actual.float1)
         self.assertEquals(112.233, actual.float2)
         self.assertEquals(778.899, actual.float3)
 
     @patch('pyny.models.api._get_json')
-    def test_get_data_08(self, get_json):
+    def test_get_by_id_08(self, get_json):
         """
-        [対象] get_data() : No.08
+        [対象] get_by_id() : No.08
         [条件] DateFieldを持つモデルの当該メソッドを実行する。
         [結果] 各フィールドに値が設定される。
         """
@@ -222,16 +222,16 @@ class ModelTest(TestCase):
             }],
         }
 
-        actual = DateModel.get_data('dummy', 2)
+        actual = DateModel.get_by_id('dummy', 2)
 
         self.assertEquals(datetime.date(2015, 4, 4), actual.date1)
         self.assertEquals(datetime.date(2015, 5, 5), actual.date2)
         self.assertEquals(datetime.date(2015, 6, 6), actual.date3)
 
     @patch('pyny.models.api._get_json')
-    def test_get_data_09(self, get_json):
+    def test_get_by_id_09(self, get_json):
         """
-        [対象] get_data() : No.09
+        [対象] get_by_id() : No.09
         [条件] DateTimeFieldを持つモデルの当該メソッドを実行する。
         [結果] 各フィールドに値が設定される。
         """
@@ -261,7 +261,7 @@ class ModelTest(TestCase):
             }],
         }
 
-        actual = DateTimeModel.get_data('dummy', 2)
+        actual = DateTimeModel.get_by_id('dummy', 2)
 
         self.assertEquals(datetime.datetime(2015, 4, 4, 4, 4, 4), actual.date_time1)
         self.assertEquals(datetime.datetime(2015, 5, 5, 5, 5, 5), actual.date_time2)

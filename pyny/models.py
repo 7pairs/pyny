@@ -45,7 +45,7 @@ class Model:
             setattr(self, k, v.convert(value) if value is not None else None)
 
     @classmethod
-    def get_data(cls, layer_id, feature_id):
+    def get_by_id(cls, layer_id, feature_id):
         """
         指定されたレイヤID、項目IDにマッチするデータを取得する。
 
@@ -57,7 +57,7 @@ class Model:
         :rtype: Model
         """
         # 条件に合致するデータを取得する
-        data = api.get_data(layer_id, feature_id)
+        data = api.get_by_id(layer_id, feature_id)
         if data:
             return cls(data)
         else:
