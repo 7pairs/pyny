@@ -78,6 +78,83 @@ class ApiTest(TestCase):
         with self.assertRaises(api.WebApiError):
             api.get_by_id('error', 2)
 
+    def test_get_data_01(self):
+        """
+        [対象] get_data() : No.01
+        [条件] 有効なレイヤIDを指定して実行する。
+        [結果] JSONを変換した辞書のリストが返却される。
+        """
+        expected = [{
+            'files': {},
+            'distance': 0,
+            'status': 0,
+            'created': '2013/07/19 15:01:57',
+            'attrs': {
+                'attr0': '流山市消防本部・中央消防署',
+                'attr1': '流山市三輪野山1-994',
+                'attr4': '04-7158-0119',
+                'attr8': '139.9030043',
+                'attr7': '35.8660916',
+            },
+            'feature_id': 191,
+            'moduserid': 0,
+            'layer_id': 'c1118',
+            'user_id': 307,
+            'mid': 0,
+            'geometry': 'POINT(139.9030043 35.8660916)',
+        }, {
+            'files': {},
+            'distance': 0,
+            'status': 0,
+            'created': '2013/07/19 15:01:57',
+            'attrs': {
+                'attr0': '東消防署',
+                'attr1': '流山市前ヶ崎449-1',
+                'attr4': '04-7146-0119',
+                'attr8': '139.9339132',
+                'attr7': '35.8466701',
+            },
+            'feature_id': 192,
+            'moduserid': 0,
+            'layer_id': 'c1118',
+            'user_id': 307,
+            'mid': 0,
+            'geometry': 'POINT(139.9339132 35.8466701)',
+        }, {
+            'files': {},
+            'distance': 0,
+            'status': 0,
+            'created': '2013/07/19 15:01:57',
+            'attrs': {
+                'attr0': '南消防署',
+                'attr1': '流山市南流山3-9-6',
+                'attr4': '04-7159-0119',
+                'attr8': '139.9009831',
+                'attr7': '35.8388373',
+            },
+            'feature_id': 193,
+            'moduserid': 0,
+            'layer_id': 'c1118',
+            'user_id': 307,
+            'mid': 0,
+            'geometry': 'POINT(139.9009831 35.8388373)',
+        }]
+
+        from pyny import api
+        actual = api.get_data('c1118', 3)
+
+        self.assertEqual(expected, actual)
+
+    def test_get_data_02(self):
+        """
+        [対象] get_data() : No.02
+        [条件] 無効なレイヤIDを指定して実行する。
+        [結果] WebApiErrorが送出される。
+        """
+        from pyny import api
+        with self.assertRaises(api.WebApiError):
+            api.get_data('error', 3)
+
     def test_get_all_data_01(self):
         """
         [対象] get_all_data() : No.01
@@ -259,8 +336,8 @@ class ApiTest(TestCase):
 
         from pyny import api
         actual = api._get_json('http://nagareyama.ecom-plat.jp/map/api/feature/8?layers=c1150&pagenum=1')
-        del(actual['_timestamp'])    # 実行するたびに値が変わってしまうためテスト対象外とする
 
+        del(actual['_timestamp'])    # 実行するたびに値が変わってしまうためテスト対象外とする
         self.assertEqual(expected, actual)
 
     def test_get_json_02(self):
