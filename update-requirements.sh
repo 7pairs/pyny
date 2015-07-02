@@ -17,10 +17,10 @@
 #
 
 # インストール対象のライブラリ
-INSTALL_LIBRARIES=('nose' 'mock')
+INSTALL_LIBRARIES=('nose' 'mock' 'wheel')
 
 # requirements.txtに記載しないライブラリ
-EXCLUDE_LIBRARIES=()
+EXCLUDE_LIBRARIES=('wheel')
 
 # インストール済みのライブラリをいったんアンインストールする
 echo '*****  Uninstall START ' `date +'%Y-%m-%d %H:%M:%S'` ' *****'
@@ -32,7 +32,7 @@ echo '*****  Uninstall END   ' `date +'%Y-%m-%d %H:%M:%S'` ' *****'
 # 対象のライブラリをインストールする
 echo '*****  Install   START ' `date +'%Y-%m-%d %H:%M:%S'` ' *****'
 for library in ${INSTALL_LIBRARIES[@]}; do
-    pip install $library
+    pip install ${library}
 done
 echo '*****  Install   END   ' `date +'%Y-%m-%d %H:%M:%S'` ' *****'
 

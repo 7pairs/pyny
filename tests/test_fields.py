@@ -23,7 +23,7 @@ from unittest import TestCase
 
 class StringFieldTest(TestCase):
     """
-    StringFieldに対するテストコード。
+    fields.StringFieldに対するテストコード。
     """
 
     def _get_target_object(self, *args, **kwargs):
@@ -45,7 +45,7 @@ class StringFieldTest(TestCase):
         """
         [対象] __init__() : No.01
         [条件] キーを指定して実行する。
-        [結果] プロパティが設定される。
+        [結果] 指定した値がプロパティに設定される。
         """
         target = self._get_target_object('string_field')
 
@@ -86,7 +86,7 @@ class StringFieldTest(TestCase):
 
 class IntegerFieldTest(TestCase):
     """
-    IntegerFieldに対するテストコード。
+    fields.IntegerFieldに対するテストコード。
     """
 
     def _get_target_object(self, *args, **kwargs):
@@ -108,7 +108,7 @@ class IntegerFieldTest(TestCase):
         """
         [対象] __init__() : No.01
         [条件] キーを指定して実行する。
-        [結果] プロパティが設定される。
+        [結果] 指定した値がプロパティに設定される。
         """
         target = self._get_target_object('integer_field')
 
@@ -159,7 +159,7 @@ class IntegerFieldTest(TestCase):
 
 class DecimalFieldTest(TestCase):
     """
-    DecimalFieldに対するテストコード。
+    fields.DecimalFieldに対するテストコード。
     """
 
     def _get_target_object(self, *args, **kwargs):
@@ -181,7 +181,7 @@ class DecimalFieldTest(TestCase):
         """
         [対象] __init__() : No.01
         [条件] キーを指定して実行する。
-        [結果] プロパティが設定される。
+        [結果] 指定した値がプロパティに設定される。
         """
         target = self._get_target_object('decimal_field')
 
@@ -212,7 +212,7 @@ class DecimalFieldTest(TestCase):
         """
         [対象] convert() : No.02
         [条件] 文字列を指定して実行する。
-        [結果] 指定した値が数値化して返却される。
+        [結果] 指定した値が固定小数点数化して返却される。
         """
         target = self._get_target_object()
         actual = target.convert('2.71828')
@@ -222,7 +222,7 @@ class DecimalFieldTest(TestCase):
     def test_convert_03(self):
         """
         [対象] convert() : No.03
-        [条件] 数値化できない文字列を指定して実行する。
+        [条件] 固定小数点数化できない文字列を指定して実行する。
         [結果] InvalidOperationが送出される。
         """
         target = self._get_target_object()
@@ -232,7 +232,7 @@ class DecimalFieldTest(TestCase):
 
 class FloatFieldTest(TestCase):
     """
-    FloatFieldに対するテストコード。
+    fields.FloatFieldに対するテストコード。
     """
 
     def _get_target_object(self, *args, **kwargs):
@@ -254,7 +254,7 @@ class FloatFieldTest(TestCase):
         """
         [対象] __init__() : No.01
         [条件] キーを指定して実行する。
-        [結果] プロパティが設定される。
+        [結果] 指定した値がプロパティに設定される。
         """
         target = self._get_target_object('float_field')
 
@@ -285,7 +285,7 @@ class FloatFieldTest(TestCase):
         """
         [対象] convert() : No.02
         [条件] 文字列を指定して実行する。
-        [結果] 指定した値が数値化して返却される。
+        [結果] 指定した値が浮動小数点数化して返却される。
         """
         target = self._get_target_object()
         actual = target.convert('2.71828')
@@ -295,7 +295,7 @@ class FloatFieldTest(TestCase):
     def test_convert_03(self):
         """
         [対象] convert() : No.03
-        [条件] 数値化できない文字列を指定して実行する。
+        [条件] 浮動小数点数化できない文字列を指定して実行する。
         [結果] ValueErrorが送出される。
         """
         target = self._get_target_object()
@@ -305,7 +305,7 @@ class FloatFieldTest(TestCase):
 
 class DateFieldTest(TestCase):
     """
-    DateFieldに対するテストコード。
+    fields.DateFieldに対するテストコード。
     """
 
     def _get_target_object(self, *args, **kwargs):
@@ -327,7 +327,7 @@ class DateFieldTest(TestCase):
         """
         [対象] __init__() : No.01
         [条件] キーを指定して実行する。
-        [結果] プロパティが設定される。
+        [結果] 指定した値がプロパティに設定される。
         """
         target = self._get_target_object('date_field')
 
@@ -389,7 +389,7 @@ class DateFieldTest(TestCase):
 
 class DateTimeFieldTest(TestCase):
     """
-    DateTimeFieldに対するテストコード。
+    fields.DateTimeFieldに対するテストコード。
     """
 
     def _get_target_object(self, *args, **kwargs):
@@ -411,7 +411,7 @@ class DateTimeFieldTest(TestCase):
         """
         [対象] __init__() : No.01
         [条件] キーを指定して実行する。
-        [結果] プロパティが設定される。
+        [結果] 指定した値がプロパティに設定される。
         """
         target = self._get_target_object('date_time_field')
 
