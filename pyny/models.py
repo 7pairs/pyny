@@ -64,6 +64,21 @@ class Model:
             return None
 
     @classmethod
+    def get_data(cls, layer_id, count):
+        """
+        指定されたレイヤIDにマッチするデータを指定された件数ぶん取得する。
+
+        :param layer_id: レイヤID
+        :type layer_id: str
+        :param count: 件数
+        :type count: int
+        :return: マッピングされたモデルのリスト
+        :rtype: list
+        """
+        # 条件に合致するデータを取得する
+        return [cls(data) for data in api.get_data(layer_id, count)]
+
+    @classmethod
     def get_all_data(cls, layer_id):
         """
         指定されたレイヤIDにマッチするすべてのデータを取得する。
@@ -73,12 +88,12 @@ class Model:
         :return: マッピングされたモデルのリスト
         :rtype: list
         """
-        # 当該レイヤIDの全データを取得する
+        # 条件に合致するデータを取得する
         return [cls(data) for data in api.get_all_data(layer_id)]
 
     def _get_value(self, data, key):
         """
-        辞書の中から指定されたキーに対応する値を取得する。
+        指定された辞書から指定されたキーに対応する値を取得する。
         キーにドットが含まれる場合はドットをキーの区切り文字として再帰的に辞書を探索する。
 
         :param data: 探索対象の辞書

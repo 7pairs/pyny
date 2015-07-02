@@ -21,7 +21,7 @@ from urllib.request import urlopen
 
 
 # 流山市オープンデータWeb APIのURL
-WEB_API_URL = 'http://nagareyama.ecom-plat.jp/map/api/feature/8?layers=%s&pagenum=%d'
+NAGAREYAMA_WEB_API_URL = 'http://nagareyama.ecom-plat.jp/map/api/feature/8?layers=%s&pagenum=%d'
 
 
 class WebApiError(Exception):
@@ -52,6 +52,22 @@ def get_by_id(layer_id, feature_id):
         return None
 
 
+def get_data(layer_id, count):
+    """
+    指定されたレイヤIDにマッチするデータを指定された件数ぶん取得する。
+
+    :param layer_id: レイヤID
+    :type layer_id: str
+    :param count: 件数
+    :type count: int
+    :return: 辞書にまとめられたデータのリスト
+    :rtype: list
+    """
+    # 当該レイヤIDのデータを取得する
+    data = _get_json(NAGAREYAMA_WEB_API_URL % (layer_id, count))
+    return data['results']
+
+
 def get_all_data(layer_id):
     """
     指定されたレイヤIDにマッチするすべてのデータを取得する。
@@ -64,9 +80,8 @@ def get_all_data(layer_id):
     # データの件数を取得する
     data_count = get_data_count(layer_id)
 
-    # 当該レイヤIDの全データを取得する
-    data = _get_json(WEB_API_URL % (layer_id, data_count))
-    return data['results']
+    # 当該レイヤIDのすべてのデータを取得する
+    return get_data(layer_id, data_count)
 
 
 def get_data_count(layer_id):
@@ -79,7 +94,7 @@ def get_data_count(layer_id):
     :rtype: int
     """
     # データの件数を取得する
-    data = _get_json(WEB_API_URL % (layer_id, 1))
+    data = _get_json(NAGAREYAMA_WEB_API_URL % (layer_id, 1))
     return int(data['num'])
 
 

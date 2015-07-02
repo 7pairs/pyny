@@ -31,7 +31,7 @@ class BaseField(metaclass=ABCMeta):
         """
         BaseFieldを構築する。
 
-        :param name: 当フィールドが参照する値のキー
+        :param name: 当フィールドが参照する項目のキー
         :type name: str
         """
         # プロパティを設定する
@@ -43,7 +43,7 @@ class BaseField(metaclass=ABCMeta):
         指定された値をそのフィールドクラスに適した型に変換する。
         サブクラスでそれぞれのクラスに応じた値を返すようオーバーライドすること。
 
-        :param target: 変換対象
+        :param target: 変換対象の値
         :type target: object
         :return: 変換後の値
         :rtype: object
@@ -60,7 +60,7 @@ class StringField(BaseField):
         """
         StringFieldを構築する。
 
-        :param name: 当フィールドが参照する値のキー
+        :param name: 当フィールドが参照する項目のキー
         :type name: str
         """
         # プロパティを設定する
@@ -70,12 +70,12 @@ class StringField(BaseField):
         """
         指定された値を文字列に変換する。
 
-        :param target: 変換対象
+        :param target: 変換対象の値
         :type target: object
         :return: 変換後の値
         :rtype: str
         """
-        # 対象が文字列の場合は変換せずに返却する
+        # 対象が文字列の場合はそのまま返却する
         if isinstance(target, str):
             return target
 
@@ -92,7 +92,7 @@ class IntegerField(BaseField):
         """
         IntegerFieldを構築する。
 
-        :param name: 当フィールドが参照する値のキー
+        :param name: 当フィールドが参照する項目のキー
         :type name: str
         """
         # プロパティを設定する
@@ -102,12 +102,12 @@ class IntegerField(BaseField):
         """
         指定された値を整数に変換する。
 
-        :param target: 変換対象
+        :param target: 変換対象の値
         :type target: object
         :return: 変換後の値
         :rtype: int
         """
-        # 対象が整数の場合は変換せずに返却する
+        # 対象が整数の場合はそのまま返却する
         if isinstance(target, int):
             return target
 
@@ -124,7 +124,7 @@ class DecimalField(BaseField):
         """
         DecimalFieldを構築する。
 
-        :param name: 当フィールドが参照する値のキー
+        :param name: 当フィールドが参照する項目のキー
         :type name: str
         """
         # プロパティを設定する
@@ -134,12 +134,12 @@ class DecimalField(BaseField):
         """
         指定された値を固定小数点数に変換する。
 
-        :param target: 変換対象
+        :param target: 変換対象の値
         :type target: object
         :return: 変換後の値
         :rtype: decimal.Decimal
         """
-        # 対象が固定小数点数の場合は変換せずに返却する
+        # 対象が固定小数点数の場合はそのまま返却する
         if isinstance(target, decimal.Decimal):
             return target
 
@@ -156,7 +156,7 @@ class FloatField(BaseField):
         """
         FloatFieldを構築する。
 
-        :param name: 当フィールドが参照する値のキー
+        :param name: 当フィールドが参照する項目のキー
         :type name: str
         """
         # プロパティを設定する
@@ -166,12 +166,12 @@ class FloatField(BaseField):
         """
         指定された値を浮動小数点数に変換する。
 
-        :param target: 変換対象
+        :param target: 変換対象の値
         :type target: object
         :return: 変換後の値
         :rtype: float
         """
-        # 対象が浮動小数点数の場合は変換せずに返却する
+        # 対象が浮動小数点数の場合はそのまま返却する
         if isinstance(target, float):
             return target
 
@@ -188,7 +188,7 @@ class DateField(BaseField):
         """
         DateFieldを構築する。
 
-        :param name: 当フィールドが参照する値のキー
+        :param name: 当フィールドが参照する項目のキー
         :type name: str
         :param fmt: 日付のフォーマット
         :type fmt: str
@@ -201,12 +201,12 @@ class DateField(BaseField):
         """
         指定された値を日付に変換する。
 
-        :param target: 変換対象
+        :param target: 変換対象の値
         :type target: object
         :return: 変換後の値
         :rtype: datetime.date
         """
-        # 対象が日付の場合は変換せずに返却する
+        # 対象が日付の場合はそのまま返却する
         if isinstance(target, datetime.date):
             return target
 
@@ -223,7 +223,7 @@ class DateTimeField(BaseField):
         """
         DateTimeFieldを構築する。
 
-        :param name: 当フィールドが参照する値のキー
+        :param name: 当フィールドが参照する項目のキー
         :type name: str
         :param fmt: 日時のフォーマット
         :type fmt: str
@@ -236,12 +236,12 @@ class DateTimeField(BaseField):
         """
         指定された値を日時に変換する。
 
-        :param target: 変換対象
+        :param target: 変換対象の値
         :type target: object
         :return: 変換後の値
         :rtype: datetime.datetime
         """
-        # 対象が日時の場合は変換せずに返却する
+        # 対象が日時の場合はそのまま返却する
         if isinstance(target, datetime.datetime):
             return target
 
